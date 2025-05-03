@@ -98,8 +98,8 @@ def update_loop():
                             # Limpia el área donde aparece el mensaje
                             else:
                                 mensaje_temporal = None
-                                pantalla.fill(BLANCO, (0, 80, 400, 30))  
-                        
+                                pantalla.fill(BLANCO, (100, 12, 500, 18))
+                                                       
                         # Limpiar área de debug
                         limpiar_area_debug()
                         break
@@ -225,7 +225,7 @@ def update_loop():
 
         # coloca en pantalla el mensaje temporal 
         if mensaje_temporal:
-            pantalla.blit(mensaje_temporal, (20, 80))
+            pantalla.blit(mensaje_temporal, (250, 10))
 
         if not dibujado:
             # Limpiar área de debug
