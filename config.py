@@ -7,7 +7,7 @@ pygame.init()
 ANCHO = 800  # Ancho total de la ventana
 LARGO = 600  # Alto total de la ventana
 BUTTON_ANCHO = 150  # Ancho del panel de botones
-CANVAS_ANCHO = ANCHO - 2 * BUTTON_ANCHO  # Ancho del área de dibujo (800 - 150 - 150 = 500)
+CANVAS_ANCHO = ANCHO - BUTTON_ANCHO  # Ancho del área de dibujo (800 - 150 = 650)
 FPS = 60  # Frames por segundo
 
 # Colores básicos en formato RGB
@@ -22,6 +22,7 @@ CYAN = (0, 255, 255)
 ORANGE = (255, 165, 0)
 MAGENTA = (255, 0, 255)
 YELLOW = (255, 255, 0)
+PANEL_COLOR = (234, 234, 234)
 
 # Colores personalizados
 COLORES = {
@@ -64,10 +65,25 @@ COLORES_FORMA = {
     "Ellipse": YELLOW
 }
 
+# Mapeo de nombres de modos a nombres de archivo de iconos
+ICONOS = {
+    "Linea (DDA)": "linea.png",
+    "Linea (Bresenham)": "line_bresenham.png",
+    "Circulo (Bresenham)": "circle.png",
+    "Curva (Bézier)": "bezier.png",
+    "Triangulo": "triangle.png",
+    "Recatangulo": "rectangle.png",
+    "Poligono": "polygon.png",
+    "Ellipse": "ellipse.png"
+}
+
 # Configuración global de la aplicación
 pantalla = pygame.display.set_mode((ANCHO, LARGO))  # Creación de la ventana
 pygame.display.set_caption("GRAFICADOR")  # Título de la ventana
 
 # Fuentes
-font = pygame.font.SysFont("arial", 16)
-debug_font = pygame.font.SysFont("arial", 16)
+font = pygame.font.SysFont("arial", 16, bold=True)
+debug_font = pygame.font.SysFont("arial", 16, bold=True)
+
+# Directorio de iconos
+ICONS_DIR = "icons"

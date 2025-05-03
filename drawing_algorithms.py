@@ -3,7 +3,7 @@ from config import pantalla, BUTTON_ANCHO, ANCHO, LARGO
 
 def poner_pixel(x, y, color):
     """Dibuja un píxel en la posición (x,y) con el color especificado"""
-    if BUTTON_ANCHO <= x < ANCHO - BUTTON_ANCHO and 0 <= y < LARGO:
+    if 0 <= x < ANCHO - BUTTON_ANCHO and 0 <= y < LARGO:
         pantalla.set_at((x, y), color)
 
 def draw_point(x, y, color):

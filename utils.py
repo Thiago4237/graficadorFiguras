@@ -1,13 +1,34 @@
 import pygame
-from config import pantalla, BLANCO, BUTTON_ANCHO, LARGO, CANVAS_ANCHO, COLORES_FORMA, COLORES_INVERSO
+import os
+from config import ( pantalla, BLANCO, LARGO, CANVAS_ANCHO, COLORES_FORMA,
+                    COLORES_INVERSO, ICONS_DIR, ICONOS, font
+                    )
+
+def cargar_iconos():
+    """Carga los iconos para los botones desde archivos"""
+    icons_dir = ICONS_DIR
+    icon_surfaces = {}
+
+    # Crear el directorio si no existe
+    if not os.path.exists(icons_dir):
+        os.makedirs(icons_dir)
+
+    # Cargar cada icono directamente
+    for modo, filename in ICONOS.items():
+        filepath = os.path.join(icons_dir, filename)
+        icon = pygame.image.load(filepath)
+        icon_surfaces[modo] = icon
+
+    return icon_surfaces
+
 
 def limpiar_zona():
     """Limpia el área de dibujo"""
     from ui import actualizar_textos_debug
     
-    pantalla.fill(BLANCO, (BUTTON_ANCHO, 0, CANVAS_ANCHO, LARGO))
+    pantalla.fill(BLANCO, (0, 0, CANVAS_ANCHO, LARGO))
     # Limpia el área de los textos de debug
-    pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
+    pantalla.fill(BLANCO, (0, 0, 180, 70))
     # Actualiza los textos de debug
     actualizar_textos_debug()
     pygame.display.flip()

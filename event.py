@@ -1,9 +1,9 @@
 import pygame
 from config import (
-    pantalla, NEGRO, ROJO, AZUL, BLANCO, GRIS, BUTTON_ANCHO, 
-    ANCHO, LARGO, debug_font
+    pantalla, NEGRO, ROJO, BLANCO, GRIS, BUTTON_ANCHO,
+    ANCHO, debug_font
 )
-from ui import botones_izquierda, botones_derecha, clear_button, reset_button, actualizar_textos_debug
+from ui import botones_derecha, clear_button, reset_button, actualizar_textos_debug
 from utils import limpiar_zona, reinciar_app, get_draw_color
 from drawing_algorithms import (
     draw_point, draw_line_dda, draw_line_bresenham, draw_circle_bresenham,
@@ -22,6 +22,11 @@ modo_dibujo_activo = debug_font.render("Modo: Ninguno", True, NEGRO)
 color_aplicado = debug_font.render("Color: Ninguno", True, NEGRO)
 puntos_seleccionados = debug_font.render("Puntos: 0", True, NEGRO)
 
+def limpiar_area_debug():
+    pantalla.fill(BLANCO, (0, 0, 180, 70))
+    actualizar_textos_debug()
+    pygame.display.flip()
+
 def update_loop():
     global modo_actual, puntos, dibujado, puntos_poligono, modo_dibujo_activo, puntos_seleccionados, color_aplicado, color_activo
 
@@ -31,34 +36,25 @@ def update_loop():
             return False  # Indica que debemos salir del bucle principal
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            # Clics en el panel izquierdo (modos)
-            if x < BUTTON_ANCHO:
-                for button in botones_izquierda:
-                    if button["rect"].collidepoint(x, y):
-                        modo_actual = button["mode"]
-                        puntos = []
-                        puntos_poligono = []
-                        dibujado = False
-                        modo_dibujo_activo = debug_font.render(f"Modo: {modo_actual}", True, NEGRO)
-                        puntos_seleccionados = debug_font.render(f"Puntos: 0", True, NEGRO)
-                        # Actualizar el color al predeterminado del modo
-                        color, nombre_color = get_draw_color()
-                        color_aplicado = debug_font.render(f"Color: {nombre_color}", True, NEGRO)
-                        # Limpiar área de debug
-                        pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-                        actualizar_textos_debug()
-                        pygame.display.flip()
-                        break
-            # Clics en el panel derecho (colores, limpiar, reiniciar)
-            elif x >= ANCHO - BUTTON_ANCHO:
+            # Clics en el panel derecho (figuras, colores, limpiar, reiniciar)
+            if x >= ANCHO - BUTTON_ANCHO:
                 for button in botones_derecha:
                     if button["rect"].collidepoint(x, y):
-                        color_activo = button["color"]
-                        color_aplicado = debug_font.render(f"Color: {button['name']}", True, NEGRO)
+                        if button["tipo"] == "color":
+                            color_activo = button["color"]
+                            color_aplicado = debug_font.render(f"Color: {button['name']}", True, NEGRO)
+                        elif button["tipo"] == "figura":
+                            modo_actual = button["mode"]
+                            puntos = []
+                            puntos_poligono = []
+                            dibujado = False
+                            modo_dibujo_activo = debug_font.render(f"Modo: {modo_actual}", True, NEGRO)
+                            puntos_seleccionados = debug_font.render(f"Puntos: 0", True, NEGRO)
+                            # Actualizar el color al predeterminado del modo
+                            color, nombre_color = get_draw_color()
+                            color_aplicado = debug_font.render(f"Color: {nombre_color}", True, NEGRO)
                         # Limpiar área de debug
-                        pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-                        actualizar_textos_debug()
-                        pygame.display.flip()
+                        limpiar_area_debug()
                         break
                 if clear_button["rect"].collidepoint(x, y):
                     limpiar_zona()
@@ -67,13 +63,11 @@ def update_loop():
                     dibujado = False
                     puntos_seleccionados = debug_font.render(f"Puntos: 0", True, NEGRO)
                     # Limpiar área de debug
-                    pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-                    actualizar_textos_debug()
-                    pygame.display.flip()
+                    limpiar_area_debug()
                 elif reset_button["rect"].collidepoint(x, y):
                     reinciar_app()
             # Clics en el lienzo
-            elif BUTTON_ANCHO <= x < ANCHO - BUTTON_ANCHO and modo_actual:
+            elif x < ANCHO - BUTTON_ANCHO and modo_actual:
                 puntos.append((x, y))
                 draw_point(x, y, ROJO)
                 puntos_seleccionados = debug_font.render(f"Puntos: {len(puntos)}", True, NEGRO)
@@ -87,36 +81,17 @@ def update_loop():
                         )
                 dibujado = True
                 # Limpiar área de debug
-                pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-                actualizar_textos_debug()
-                pygame.display.flip()
+                limpiar_area_debug()
 
         elif event.type == pygame.KEYDOWN:
-            if event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5, pygame.K_6, pygame.K_7, pygame.K_8):
-                index = event.key - pygame.K_1
-                if index < len(botones_izquierda):
-                    modo_actual = botones_izquierda[index]["mode"]
-                    puntos = []
-                    puntos_poligono = []
-                    dibujado = False
-                    modo_dibujo_activo = debug_font.render(f"Modo: {modo_actual}", True, NEGRO)
-                    puntos_seleccionados = debug_font.render(f"Puntos: 0", True, NEGRO)
-                    color, nombre_color = get_draw_color()
-                    color_aplicado = debug_font.render(f"Color: {nombre_color}", True, NEGRO)
-                    # Limpiar área de debug
-                    pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-                    actualizar_textos_debug()
-                    pygame.display.flip()
-            elif event.key == pygame.K_c:
+            if event.key == pygame.K_c:
                 limpiar_zona()
                 puntos = []
                 puntos_poligono = []
                 dibujado = False
                 puntos_seleccionados = debug_font.render(f"Puntos: 0", True, NEGRO)
                 # Limpiar área de debug
-                pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-                actualizar_textos_debug()
-                pygame.display.flip()
+                limpiar_area_debug()
             elif event.key == pygame.K_r:
                 reinciar_app()
             elif event.key == pygame.K_RETURN and modo_actual == "Poligono" and len(puntos_poligono) >= 3:
@@ -127,9 +102,7 @@ def update_loop():
                 dibujado = False
                 puntos_seleccionados = debug_font.render(f"Puntos: 0", True, NEGRO)
                 # Limpiar área de debug
-                pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-                actualizar_textos_debug()
-                pygame.display.flip()
+                limpiar_area_debug()
 
     # Previsualización en tiempo real
     if dibujado and modo_actual and len(puntos) >= 2:
@@ -149,9 +122,7 @@ def update_loop():
         elif modo_actual == "Poligono" and puntos_poligono:
             draw_polygon(puntos_poligono, GRIS)
         # Limpiar área de debug
-        pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-        actualizar_textos_debug()
-        pygame.display.flip()
+        limpiar_area_debug()
 
     # Dibujar la forma final
     if dibujado and modo_actual and modo_actual != "Poligono":
@@ -201,6 +172,4 @@ def update_loop():
 
         if not dibujado:
             # Limpiar área de debug
-            pantalla.fill(BLANCO, (BUTTON_ANCHO + 10, 0, 240, 70))
-            actualizar_textos_debug()
-            pygame.display.flip()
+            limpiar_area_debug()
