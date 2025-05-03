@@ -1,6 +1,6 @@
 import pygame
 from config import (
-    pantalla, NEGRO, ROJO, BLANCO, GRIS, BUTTON_ANCHO,
+    pantalla, NEGRO, ROJO, BLANCO, GRIS, BUTTON_ANCHO, AZUL,
     ANCHO, debug_font
 )
 from ui import botones_derecha, clear_button, reset_button, actualizar_textos_debug

@@ -1,7 +1,7 @@
 import pygame
 import os
 from config import ( pantalla, BLANCO, LARGO, CANVAS_ANCHO, COLORES_FORMA,
-                    COLORES_INVERSO, ICONS_DIR, ICONOS, font
+                    COLORES_INVERSO, ICONS_DIR, ICONOS, AZUL, font
                     )
 
 def cargar_iconos():
