@@ -10,6 +10,9 @@ BUTTON_ANCHO = 150  # Ancho del panel de botones
 CANVAS_ANCHO = ANCHO - BUTTON_ANCHO  # Ancho del área de dibujo (800 - 150 = 650)
 FPS = 60  # Frames por segundo
 
+# Directorio de iconos
+ICONS_DIR = "icons"
+
 # Colores básicos en formato RGB
 BLANCO = (255, 255, 255)
 NEGRO = (0, 0, 0)
@@ -48,7 +51,7 @@ MODOS = [
     "Circulo (Bresenham)",
     "Curva (Bézier)",
     "Triangulo",
-    "Recatangulo",
+    "Rectangulo",
     "Poligono",
     "Ellipse"
 ]
@@ -60,7 +63,7 @@ COLORES_FORMA = {
     "Circulo (Bresenham)": ROJO,
     "Curva (Bézier)": PURPLE,
     "Triangulo": CYAN,
-    "Recatangulo": ORANGE,
+    "Rectangulo": ORANGE,
     "Poligono": MAGENTA,
     "Ellipse": YELLOW
 }
@@ -72,7 +75,7 @@ ICONOS = {
     "Circulo (Bresenham)": "circle.png",
     "Curva (Bézier)": "bezier.png",
     "Triangulo": "triangle.png",
-    "Recatangulo": "rectangle.png",
+    "Rectangulo": "rectangle.png",
     "Poligono": "polygon.png",
     "Ellipse": "ellipse.png"
 }
@@ -82,8 +85,4 @@ pantalla = pygame.display.set_mode((ANCHO, LARGO))  # Creación de la ventana
 pygame.display.set_caption("GRAFICADOR")  # Título de la ventana
 
 # Fuentes
-font = pygame.font.SysFont("arial", 16, bold=True)
-debug_font = pygame.font.SysFont("arial", 16, bold=True)
-
-# Directorio de iconos
-ICONS_DIR = "icons"
+debug_font = font = pygame.font.SysFont("arial", 16, bold=True)

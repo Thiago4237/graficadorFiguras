@@ -1,9 +1,9 @@
 import pygame
+from utils import cargar_iconos
 from config import (
     pantalla, BLANCO, NEGRO, BUTTON_ANCHO, ANCHO, LARGO,
     MODOS, COLORES, PANEL_COLOR, font
 )
-from utils import cargar_iconos
 
 # Configuración de botones
 botones_derecha = []
@@ -58,6 +58,9 @@ def setup_botones():
 def actualizar_textos_debug():
     """Actualiza y muestra los textos de debug en pantalla"""
     import event
+    
+    _, alto_texto = event.modo_dibujo_activo.get_size()
+    pantalla.fill(BLANCO, (11, 12, 220, alto_texto))
     
     pantalla.blit(event.modo_dibujo_activo, (10, 10))
     pantalla.blit(event.puntos_seleccionados, (10, 30))

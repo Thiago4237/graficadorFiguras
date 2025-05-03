@@ -51,7 +51,7 @@ COLORES_FORMA = {
     "Circulo (Bresenham)": ROJO,
     "Curva (Bézier)": PURPLE,
     "Triangulo": CYAN,
-    "Recatangulo": ORANGE,
+    "Rectangulo": ORANGE,
     "Poligono": MAGENTA,
     "Ellipse": YELLOW
 }
@@ -63,7 +63,7 @@ MODOS = [
     "Circulo (Bresenham)",
     "Curva (Bézier)",
     "Triangulo",
-    "Recatangulo",
+    "Rectangulo",
     "Poligono",
     "Ellipse"
 ]
@@ -420,12 +420,12 @@ def update_loop():
     if dibujado and modo_actual and len(puntos) >= 2:
         for pt in puntos:
             draw_point(pt[0], pt[1], ROJO)
-        if modo_actual in ["Linea (DDA)", "Linea (Bresenham)", "Recatangulo"] and len(puntos) == 2:
+        if modo_actual in ["Linea (DDA)", "Linea (Bresenham)", "Rectangulo"] and len(puntos) == 2:
             if modo_actual == "Linea (DDA)":
                 draw_line_dda(puntos[0][0], puntos[0][1], puntos[1][0], puntos[1][1], GRIS)
             elif modo_actual == "Linea (Bresenham)":
                 draw_line_bresenham(puntos[0][0], puntos[0][1], puntos[1][0], puntos[1][1], GRIS)
-            elif modo_actual == "Recatangulo":
+            elif modo_actual == "Rectangulo":
                 draw_rectangle(puntos[0][0], puntos[0][1], puntos[1][0], puntos[1][1], GRIS)
         elif modo_actual == "Triangulo" and len(puntos) == 3:
             draw_triangle(puntos[0], puntos[1], puntos[2], GRIS)
@@ -471,7 +471,7 @@ def update_loop():
             puntos = []
             dibujado = False
             puntos_seleccionados = debug_font.render(f"Puntos: 0", True, NEGRO)
-        elif modo_actual == "Recatangulo" and len(puntos) == 2:
+        elif modo_actual == "Rectangulo" and len(puntos) == 2:
             draw_rectangle(puntos[0][0], puntos[0][1], puntos[1][0], puntos[1][1], color)
             puntos = []
             dibujado = False
